@@ -1,8 +1,8 @@
-EXE = main
+EXEC = main
 
 CLIB = -I./lib/portaudio/include ./lib/portaudio/lib/.libs/libportaudio.a -lrt -lasound -ljack -lpthread
 
-$(EXE): ./src/main.cpp
+$(EXEC): ./src/main.cpp
 	g++ -o $@ $^ $(CLIB)
 
 install-deps:
@@ -17,4 +17,4 @@ uninstall-deps:
 .PHONY: uninstall-deps
 
 clean:
-	rm -f $(EXE) *.o *.exe
+	rm -f $(EXEC) *.o *.exe
