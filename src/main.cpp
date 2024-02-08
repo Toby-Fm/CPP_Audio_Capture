@@ -1,13 +1,7 @@
-#include <iostream>
-#include <stdlib.h>
-#include <portaudio.h>
+#include "main.hpp"
 
-static void checkError(PaError err) {
-    if (err != paNoError) {
-        std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
-        exit(EXIT_FAILURE);
-    }
-}
+#define SAMPLE_RATE 44100
+#define FRAMES_PER_BUFFER 512
 
 int main() {
     PaError err;
@@ -33,6 +27,49 @@ int main() {
         std::cout << "Max output channels: " << deviceInfo->maxOutputChannels << std::endl;
         std::cout << "Default sample rate: " << deviceInfo->defaultSampleRate << std::endl;
     }
+
+    int device = 0;
+
+    PaStreamParameters inputParameters;
+    PaStreamParameters outputParameters;
+
+    memset(&inputParameters, 0, sizeof(inputParameters));
+    inputParameters.channelCount = 2;
+    inputParameters.device = device;
+    inputParameters.hostApiSpecificStreamInfo = NULL;
+    inputParameters.sampleFormat = paFloat32;
+    inputParameters.suggestedLatency = Pa_GetDeviceInfo(device)->defaultLowInputLatency;
+
+    memset(&outputParameters, 0, sizeof(outputParameters));
+    outputParameters.channelCount = 2;
+    outputParameters.device = device;
+    outputParameters.hostApiSpecificStreamInfo = NULL;
+    outputParameters.sampleFormat = paFloat32;
+    outputParameters.suggestedLatency = Pa_GetDeviceInfo(device)->defaultLowInputLatency;
+
+    PaStream* stream;
+    err = Pa_OpenStream(
+        &stream,
+        &inputParameters,
+        &outputParameters,
+        SAMPLE_RATE,
+        FRAMES_PER_BUFFER,
+        paNoFlag,
+        patestCallback,
+        NULL
+    );
+    checkError(err);
+
+    err = Pa_StartStream(stream);
+    checkError(err);
+
+    Pa_Sleep(10 * 1000);
+
+    err = Pa_StopStream(stream);
+    checkError(err);
+
+    err = Pa_CloseStream(stream);
+    checkError(err);
 
     err = Pa_Terminate();
     checkError(err);
