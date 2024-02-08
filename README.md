@@ -2,8 +2,8 @@
 Dieses Projekt ist ein "Audio-Monitor", der in C++ geschrieben ist. Es nutzt die `PortAudio-Bibliothek`, um Audioeingaben von verschiedenen Quellen zu überwachen. Es kann sowohl Mikrofoneingaben als auch Audioausgaben von Anwendungen wie Spotify überwachen. Die Lautstärke der Audioeingaben wird in Echtzeit visualisiert, wobei die Amplitude der Audiosignale steigt und fällt.
 
 ![Audio test](/img/image-1.png)
-![Audio test](/img/image.png)
-![Audio test](/img/image-4.png)
+![Audio test](/img/image-3.png)
+![Audio test](/img/image-2.png)
 
 ---
 
